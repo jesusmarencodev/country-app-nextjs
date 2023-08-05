@@ -1,18 +1,23 @@
+import React, { useState } from "react";
 import { Navbar } from "@/components/shared/navbar";
 import { Link } from "@nextui-org/link";
 
-import { nunito } from "@/config/fonts";
+import ThemeContext from "@/context/themeContext";
 import { Providers } from "./providers";
+import { nunito } from "@/config/fonts";
+
+const defaultTheme = "dark";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [theme, setTheme] = useState<string>(defaultTheme);
   return (
-    <>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className={nunito.className}>
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
+        <Providers themeProps={{ attribute: "class", defaultTheme }}>
           <div className="relative flex flex-col h-screen">
             <Navbar />
             <main className="container mx-auto max-w-7xl pt-8 px-6 flex-grow">
@@ -32,7 +37,6 @@ export default function RootLayout({
           </div>
         </Providers>
       </div>
-    </>
-   
+    </ThemeContext.Provider>
   );
 }
